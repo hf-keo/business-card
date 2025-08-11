@@ -4,15 +4,29 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Abdul Hannis Farhad Abdul Wahid</title>
+
+<!-- Example: Google Fonts (Poppins). Swap for your preferred family. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
+  :root {
+    --blue:#003298;
+    --green:#71b400;
+    --card:#ffffff;
+    --ink:#1b1f23;
+    --muted:#4b5563;
+  }
+  *{box-sizing:border-box}
   body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     background: #f5f5f5;
-    color: #333;
+    color: var(--ink);
   }
   header {
-    background-color: #0046ad;
+    background-color: var(--blue);
     color: white;
     text-align: center;
     padding: 40px 20px 60px;
@@ -25,16 +39,18 @@
   }
   header h1 {
     margin: 0 0 15px;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: .2px;
   }
   .contact-btn {
     background: transparent;
-    border: 2px solid #00b300;
-    color: #00b300;
+    border: 2px solid var(--green);
+    color: var(--green);
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
   }
   .tabs {
     display: flex;
@@ -42,69 +58,51 @@
     background: white;
     position: relative;
     top: -25px;
-    border-radius: 10px 10px 0 0;
+    border-radius: 12px 12px 0 0;
     overflow: hidden;
-    box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
     width: max-content;
     margin: 0 auto;
   }
   .tab {
-    padding: 10px 20px;
+    padding: 12px 22px;
     cursor: pointer;
     border-bottom: 3px solid transparent;
-    font-weight: bold;
+    font-weight: 600;
+    color: #cbd5e1;
   }
   .tab.active {
-    border-bottom: 3px solid #0046ad;
+    border-bottom: 3px solid var(--blue);
     background: #fff;
+    color: var(--ink);
   }
   .content {
-    max-width: 600px;
-    background: white;
+    max-width: 720px;
+    background: var(--card);
     margin: 0 auto 40px;
-    padding: 20px;
-    border-radius: 0 0 10px 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 24px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
   }
-  .info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  .item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid #eef2f7;
   }
-  .info-item span {
-    margin-left: 10px;
+  .item:last-child { border-bottom: none; }
+  .icon {
+    width: 28px; height: 28px;
+    flex: 0 0 auto;
   }
-  .info-item a {
-    color: #0046ad;
-    text-decoration: none;
-  }
-  .qr {
-    text-align: center;
-    margin-top: 20px;
-  }
-  .company-item {
-    margin-bottom: 15px;
-  }
-  .company-item strong {
-    display: block;
-    margin-bottom: 4px;
-  }
-  .socials {
-    text-align: center;
-    padding: 40px 0;
-  }
-  .socials img {
-    width: 60px;
-    height: 60px;
-    display: block;
-    margin: 0 auto 10px;
-  }
-  .socials a {
-    text-decoration: none;
-    color: #0046ad;
-    font-weight: bold;
-    font-size: 1rem;
-  }
+  .label { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+  .value a { color: var(--blue); text-decoration: none; }
+  .company-item { margin-bottom: 16px; }
+  .socials { text-align:center; padding: 36px 0; }
+  .socials img { width:64px; height:64px; display:block; margin: 0 auto 10px; }
+  .socials a { color: var(--blue); font-weight: 600; text-decoration:none; }
 </style>
 </head>
 <body>
@@ -120,34 +118,77 @@
     <div class="tab" onclick="showTab('socials')">Socials</div>
   </div>
 
+  <!-- CONTACT -->
   <div class="content" id="contact">
-    <div class="info-item">📞 <span><a href="tel:+601125605471">+601125605471</a></span></div>
-    <div class="info-item">✉️ <span><a href="mailto:farhad@mccsw.com">farhad@mccsw.com</a></span></div>
-    <div class="info-item">🌐 <span><a href="https://www.mccsinternational.com" target="_blank">https://www.mccsinternational.com</a></span></div>
-    <div class="info-item">📍 <span>B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, WP Kuala Lumpur, Malaysia</span></div>
-    <div class="qr">
-      <img id="qrImg" alt="QR Code" />
+    <div class="item">
+      <!-- Phone SVG -->
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.86.33 1.7.63 2.5a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.8.3 1.64.51 2.5.63A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      <div class="value">
+        <div class="label">Phone number</div>
+        <a href="tel:+601125605471">+601125605471</a>
+      </div>
+    </div>
+
+    <div class="item">
+      <!-- Mail SVG -->
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
+        <path d="m22 6-10 7L2 6"/>
+      </svg>
+      <div class="value">
+        <div class="label">Email</div>
+        <a href="mailto:farhad@mccsw.com">farhad@mccsw.com</a>
+      </div>
+    </div>
+
+    <div class="item">
+      <!-- Globe SVG -->
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <div class="value">
+        <div class="label">Personal website</div>
+        <a href="https://www.mccsinternational.com" target="_blank">https://www.mccsinternational.com</a>
+      </div>
+    </div>
+
+    <div class="item">
+      <!-- Location Pin SVG -->
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 10.5C21 16 12 22 12 22S3 16 3 10.5a9 9 0 1 1 18 0z"/>
+        <circle cx="12" cy="10.5" r="3"/>
+      </svg>
+      <div class="value">
+        <div class="label">Location</div>
+        <div>B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, WP Kuala Lumpur, Malaysia</div>
+      </div>
     </div>
   </div>
 
+  <!-- COMPANY -->
   <div class="content" id="company" style="display:none;">
     <div class="company-item">
-      <strong>🏢 Company</strong>
-      <span>MCCS MALAYSIA</span>
+      <div class="label">Company</div>
+      <div class="value">MCCS MALAYSIA</div>
     </div>
     <div class="company-item">
-      <strong>💼 Profession</strong>
-      <span>Jr. Mechanical Engineer</span>
+      <div class="label">Profession</div>
+      <div class="value">Jr. Mechanical Engineer</div>
     </div>
     <div class="company-item">
-      <strong>📝 Summary</strong>
-      <span>MCCS is a global EPCC sub-contractor for onshore/offshore oil & gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.</span>
+      <div class="label">Summary</div>
+      <div class="value">MCCS is a global EPCC sub-contractor for onshore/offshore oil & gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.</div>
     </div>
   </div>
 
+  <!-- SOCIALS -->
   <div class="content" id="socials" style="display:none;">
     <div class="socials">
-      <a href="https://www.linkedin.com/in/hannisfarhad/" target="_blank">
+      <a href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" rel="noopener">
         <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" />
         Abdul Hannis Farhad Abdul Wahid
       </a>
@@ -178,10 +219,20 @@
   ].join("\n");
   const blob = new Blob([vcf], {type: "text/vcard"});
   document.getElementById("saveVcf").href = URL.createObjectURL(blob);
-
-  // QR code for current page
-  const here = encodeURIComponent(window.location.href);
-  document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${here}`;
 </script>
+
+<!-- Self-hosted font example (optional):
+Place MyFont.woff2 in a 'fonts/' folder, then uncomment.
+<style>
+@font-face {
+  font-family: 'MyFont';
+  src: url('fonts/MyFont.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+body { font-family: 'MyFont', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+</style>
+-->
 </body>
 </html>
