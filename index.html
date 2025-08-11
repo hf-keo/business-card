@@ -1,238 +1,227 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Abdul Hannis Farhad Abdul Wahid</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abdul Hannis Farhad Abdul Wahid — Virtual Card</title>
+  <meta name="description" content="Business card for Abdul Hannis Farhad Abdul Wahid (MCCS Malaysia)" />
 
-<!-- Example: Google Fonts (Poppins). Swap for your preferred family. -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-<style>
-  :root {
-    --blue:#003298;
-    --green:#71b400;
-    --card:#ffffff;
-    --ink:#1b1f23;
-    --muted:#4b5563;
-  }
-  *{box-sizing:border-box}
-  body {
-    margin: 0;
-    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: #f5f5f5;
-    color: var(--ink);
-  }
-  header {
-    background-color: var(--blue);
-    color: white;
-    text-align: center;
-    padding: 40px 20px 60px;
-  }
-  header img {
-    width: 100px;
-    height: auto;
-    display: block;
-    margin: 0 auto 15px;
-  }
-  header h1 {
-    margin: 0 0 15px;
-    font-size: 1.6rem;
-    font-weight: 600;
-    letter-spacing: .2px;
-  }
-  .contact-btn {
-    background: transparent;
-    border: 2px solid var(--green);
-    color: var(--green);
-    padding: 8px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .tabs {
-    display: flex;
-    justify-content: center;
-    background: white;
-    position: relative;
-    top: -25px;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
-    box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
-    width: max-content;
-    margin: 0 auto;
-  }
-  .tab {
-    padding: 12px 22px;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    font-weight: 600;
-    color: #cbd5e1;
-  }
-  .tab.active {
-    border-bottom: 3px solid var(--blue);
-    background: #fff;
-    color: var(--ink);
-  }
-  .content {
-    max-width: 720px;
-    background: var(--card);
-    margin: 0 auto 40px;
-    padding: 24px;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  }
-  .item {
-    display: grid;
-    grid-template-columns: 40px 1fr;
-    gap: 14px;
-    align-items: start;
-    padding: 14px 0;
-    border-bottom: 1px solid #eef2f7;
-  }
-  .item:last-child { border-bottom: none; }
-  .icon {
-    width: 28px; height: 28px;
-    flex: 0 0 auto;
-  }
-  .label { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
-  .value a { color: var(--blue); text-decoration: none; }
-  .company-item { margin-bottom: 16px; }
-  .socials { text-align:center; padding: 36px 0; }
-  .socials img { width:64px; height:64px; display:block; margin: 0 auto 10px; }
-  .socials a { color: var(--blue); font-weight: 600; text-decoration:none; }
-</style>
+  <style>
+    :root{
+      --blue:#003298;
+      --green:#71b400;
+      --ink:#111;
+      --muted:#4b5563;
+      --card:#fff;
+      --rule:#eef2f7;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:#f5f5f5;
+    }
+
+    /* Header */
+    .hero{
+      background:var(--blue);
+      color:#fff;
+      text-align:center;
+      padding:40px 20px 60px;
+    }
+    .logo-wrap{
+      width:120px;height:120px;margin:0 auto 16px;border-radius:50%;
+      background:rgba(255,255,255,.18);
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 6px 18px rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.35);
+    }
+    .logo{max-width:72%;max-height:72%;display:block}
+    h1{margin:0 0 14px;font-size:1.6rem;font-weight:600;letter-spacing:.2px}
+    .contact-btn{
+      background:transparent;border:2px solid var(--green);color:var(--green);
+      padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:600;
+      display:inline-block
+    }
+    .contact-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+    /* Tabs */
+    .tabs{
+      display:flex;justify-content:center;background:#fff;position:relative;top:-25px;
+      border-radius:12px 12px 0 0;box-shadow:0 -2px 6px rgba(0,0,0,.08);
+      width:max-content;margin:0 auto
+    }
+    .tab{
+      padding:12px 22px;cursor:pointer;border:0;background:transparent;
+      border-bottom:3px solid transparent;font-weight:600;color:#cbd5e1
+    }
+    .tab.active{border-bottom-color:var(--blue);color:var(--ink)}
+
+    /* Cards */
+    .card{
+      max-width:720px;background:var(--card);margin:0 auto 40px;padding:24px;
+      border-radius:0 0 12px 12px;box-shadow:0 2px 10px rgba(0,0,0,.06)
+    }
+    .row{
+      display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;
+      padding:14px 0;border-bottom:1px solid var(--rule)
+    }
+    .row:last-child{border-bottom:none}
+    .icon{width:20px;height:20px;stroke:var(--ink);stroke-width:1.6;fill:none}
+    .label{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:4px}
+    .value a{color:var(--blue);text-decoration:none}
+    .value a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+    .center{text-align:center}
+    .social-link{color:var(--blue);text-decoration:none;font-weight:600}
+
+    @media (max-width:560px){
+      .row{grid-template-columns:22px 1fr}
+      .logo-wrap{width:108px;height:108px}
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo" />
+
+  <!-- Header -->
+  <header class="hero">
+    <div class="logo-wrap">
+      <img class="logo" src="logo.png" alt="MCCS Logo">
+    </div>
     <h1>Abdul Hannis Farhad Abdul Wahid</h1>
     <a href="#" id="saveVcf" download="Hannis-Farhad.vcf" class="contact-btn">+ Add to contacts</a>
   </header>
 
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('contact')">Contact</div>
-    <div class="tab" onclick="showTab('company')">Company</div>
-    <div class="tab" onclick="showTab('socials')">Socials</div>
+  <!-- Tabs -->
+  <div class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab active" role="tab" aria-selected="true" onclick="showTab('contact', this)">Contact</button>
+    <button class="tab" role="tab" aria-selected="false" onclick="showTab('company', this)">Company</button>
+    <button class="tab" role="tab" aria-selected="false" onclick="showTab('socials', this)">Socials</button>
   </div>
 
   <!-- CONTACT -->
-  <div class="content" id="contact">
-    <div class="item">
-      <!-- Phone SVG -->
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.86.33 1.7.63 2.5a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.8.3 1.64.51 2.5.63A2 2 0 0 1 22 16.92z"/>
+  <section id="contact" class="card" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="row">
+      <!-- phone -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22 16.9v3a2 2 0 0 1-2.18 2A19.9 19.9 0 0 1 11.2 19a19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.12.86.33 1.7.63 2.5a2 2 0 0 1-.45 2.11L8 9.6a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.8.3 1.64.51 2.5.63A2 2 0 0 1 22 16.9z"/>
       </svg>
-      <div class="value">
-        <div class="label">Phone number</div>
-        <a href="tel:+601125605471">+601125605471</a>
-      </div>
+      <div class="value"><div class="label">Phone number</div><a href="tel:+601125605471">+601125605471</a></div>
     </div>
 
-    <div class="item">
-      <!-- Mail SVG -->
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <div class="row">
+      <!-- mail -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
-        <path d="m22 6-10 7L2 6"/>
+        <path d="M22 6 12 13 2 6"/>
       </svg>
-      <div class="value">
-        <div class="label">Email</div>
-        <a href="mailto:farhad@mccsw.com">farhad@mccsw.com</a>
-      </div>
+      <div class="value"><div class="label">Email</div><a href="mailto:farhad@mccsw.com">farhad@mccsw.com</a></div>
     </div>
 
-    <div class="item">
-      <!-- Globe SVG -->
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <div class="row">
+      <!-- globe -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/>
         <path d="M2 12h20"/>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
       </svg>
-      <div class="value">
-        <div class="label">Personal website</div>
-        <a href="https://www.mccsinternational.com" target="_blank">https://www.mccsinternational.com</a>
+      <div class="value"><div class="label">Personal website</div>
+        <a href="https://www.mccsinternational.com" target="_blank" rel="noopener">https://www.mccsinternational.com</a>
       </div>
     </div>
 
-    <div class="item">
-      <!-- Location Pin SVG -->
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <div class="row">
+      <!-- location -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M21 10.5C21 16 12 22 12 22S3 16 3 10.5a9 9 0 1 1 18 0z"/>
         <circle cx="12" cy="10.5" r="3"/>
       </svg>
-      <div class="value">
-        <div class="label">Location</div>
-        <div>B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, WP Kuala Lumpur, Malaysia</div>
+      <div class="value"><div class="label">Location</div>
+        B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, WP Kuala Lumpur, Malaysia
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- COMPANY -->
-  <div class="content" id="company" style="display:none;">
-    <div class="company-item">
-      <div class="label">Company</div>
-      <div class="value">MCCS MALAYSIA</div>
+  <section id="company" class="card" role="tabpanel" aria-labelledby="company-tab" style="display:none;">
+    <div class="row">
+      <!-- building -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 22V10l9-7 9 7v12H3z"/>
+        <path d="M9 22V12h6v10"/>
+      </svg>
+      <div class="value"><div class="label">Company</div>MCCS MALAYSIA</div>
     </div>
-    <div class="company-item">
-      <div class="label">Profession</div>
-      <div class="value">Jr. Mechanical Engineer</div>
+    <div class="row">
+      <!-- user -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/>
+        <path d="M2 20c0-4 8-6 10-6s10 2 10 6"/>
+      </svg>
+      <div class="value"><div class="label">Profession</div>Jr. Mechanical Engineer</div>
     </div>
-    <div class="company-item">
-      <div class="label">Summary</div>
-      <div class="value">MCCS is a global EPCC sub-contractor for onshore/offshore oil & gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.</div>
+    <div class="row">
+      <!-- document/arrow -->
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <div class="value"><div class="label">Summary</div>
+        MCCS is a global EPCC sub-contractor for onshore/offshore oil &amp; gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- SOCIALS -->
-  <div class="content" id="socials" style="display:none;">
-    <div class="socials">
-      <a href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" rel="noopener">
-        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" />
-        Abdul Hannis Farhad Abdul Wahid
-      </a>
-    </div>
-  </div>
+  <section id="socials" class="card center" role="tabpanel" aria-labelledby="socials-tab" style="display:none;">
+    <a class="social-link" href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" rel="noopener" aria-label="LinkedIn: Abdul Hannis Farhad Abdul Wahid">
+      <!-- Simple LinkedIn logo (circle) -->
+      <svg width="64" height="64" viewBox="0 0 48 48" aria-hidden="true" style="display:block;margin:0 auto 8px;">
+        <circle cx="24" cy="24" r="22" fill="#0A66C2"/>
+        <rect x="14" y="20" width="4" height="14" fill="#fff"/>
+        <circle cx="16" cy="15.5" r="2.3" fill="#fff"/>
+        <path d="M23 20h4v2.2h.1c.6-1.1 2-2.4 4.3-2.4 3.5 0 5.6 2.2 5.6 6v8.3h-4V27c0-2-1-3.3-3-3.3-1.8 0-3 1.2-3 3.6v7H23V20z" fill="#fff"/>
+      </svg>
+      Abdul Hannis Farhad Abdul Wahid
+    </a>
+  </section>
 
-<script>
-  // Tab switcher
-  function showTab(tab) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
-    document.querySelector('.tab[onclick="showTab(\''+tab+'\')"]').classList.add('active');
-    document.getElementById(tab).style.display = 'block';
-  }
+  <script>
+    // Tabs
+    function showTab(id, btn){
+      // panels
+      document.querySelectorAll('.card').forEach(el => el.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      // buttons
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected','false');
+      });
+      if(btn){
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected','true');
+      }
+    }
 
-  // vCard
-  const vcf = [
-    "BEGIN:VCARD",
-    "VERSION:3.0",
-    "N:Farhad;Hannis;;;",
-    "FN:Abdul Hannis Farhad Abdul Wahid",
-    "ORG:MCCS International",
-    "TITLE:Jr. Mechanical Engineer",
-    "EMAIL;TYPE=INTERNET;TYPE=WORK:farhad@mccsw.com",
-    "TEL;TYPE=CELL:+601125605471",
-    "URL:https://www.mccsinternational.com",
-    "END:VCARD"
-  ].join("\n");
-  const blob = new Blob([vcf], {type: "text/vcard"});
-  document.getElementById("saveVcf").href = URL.createObjectURL(blob);
-</script>
-
-<!-- Self-hosted font example (optional):
-Place MyFont.woff2 in a 'fonts/' folder, then uncomment.
-<style>
-@font-face {
-  font-family: 'MyFont';
-  src: url('fonts/MyFont.woff2') format('woff2');
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-body { font-family: 'MyFont', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-</style>
--->
+    // vCard (download)
+    const vcf = [
+      "BEGIN:VCARD","VERSION:3.0",
+      "N:Farhad;Hannis;;;",
+      "FN:Abdul Hannis Farhad Abdul Wahid",
+      "ORG:MCCS International",
+      "TITLE:Jr. Mechanical Engineer",
+      "EMAIL;TYPE=INTERNET;TYPE=WORK:farhad@mccsw.com",
+      "TEL;TYPE=CELL:+601125605471",
+      "URL:https://www.mccsinternational.com",
+      "END:VCARD"
+    ].join("\\n");
+    document.getElementById("saveVcf").href = URL.createObjectURL(new Blob([vcf],{type:"text/vcard"}));
+  </script>
 </body>
 </html>
