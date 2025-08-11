@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hannis Farhad — Virtual Business Card</title>
+  <meta name="description" content="Virtual business card for Hannis Farhad" />
+  <style>
+    :root{
+      --bg:#0f1222; --fg:#e9ecf1; --muted:#a9b1c6; --accent:#6ee7ff; --card:#171a2e; --btn:#232949; --ring:#6ee7ff55;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% -10%, #24305655, transparent), var(--bg); color:var(--fg);
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .card{
+      width:min(920px,100%); background:linear-gradient(180deg,#1a1f36, #151a2d);
+      border:1px solid #2a3158; border-radius:24px; box-shadow:0 12px 40px #0008; overflow:hidden;
+      display:grid; grid-template-columns: 1.3fr 1fr; gap:0; 
+    }
+    .left{padding:28px 28px 24px}
+    .right{background:var(--card); padding:28px; display:flex; flex-direction:column; gap:22px; border-left:1px solid #2a3158}
+    .top{display:flex; gap:18px; align-items:center}
+    .avatar{
+      width:84px; height:84px; border-radius:16px; background:#2c335f; border:1px solid #3b4479;
+      display:grid; place-items:center; font-weight:700; color:#cdd6f4;
+    }
+    h1{margin:0; font-size:28px; letter-spacing:.3px}
+    .title{color:var(--muted); margin-top:2px}
+    .badges{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap}
+    .badge{border:1px solid #33407a; color:#c9d4ff; background:#1b2040; padding:6px 10px; border-radius:999px; font-size:13px}
+    .links{margin-top:18px; display:flex; flex-wrap:wrap; gap:10px}
+    a.btn{
+      text-decoration:none; color:var(--fg); background:var(--btn); border:1px solid #33407a; padding:10px 14px; border-radius:12px;
+      display:inline-flex; gap:10px; align-items:center; position:relative;
+    }
+    a.btn:focus-visible, button:focus-visible { outline:2px solid var(--ring); outline-offset:2px; }
+    .grid{margin-top:18px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .tile{
+      background:#171c36; border:1px solid #2b3260; border-radius:14px; padding:14px;
+    }
+    .tile h3{margin:0 0 6px; font-size:14px; color:#c9d4ff; letter-spacing:.2px}
+    .muted{color:var(--muted); font-size:14px}
+    .qr{width:220px; height:220px; border-radius:16px; background:#11162a; border:1px dashed #33407a; display:grid; place-items:center}
+    .footnote{font-size:12px; color:#9aa3bd}
+    @media (max-width:900px){ .card{grid-template-columns:1fr} .right{border-left:none; border-top:1px solid #2a3158} .grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section class="left">
+      <div class="top">
+        <div class="avatar">HF</div>
+        <div>
+          <h1>Hannis Farhad</h1>
+          <div class="title">Jr. Mechanical Engineer — MCCS International</div>
+          <div class="badges">
+            <span class="badge">Oil &amp; Gas</span>
+            <span class="badge">Flange Integrity</span>
+            <span class="badge">Nitrogen Services</span>
+            <span class="badge">Hydrojetting Prototype</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="links">
+        <a class="btn" href="mailto:farhad@mccsw.com">📧 Email</a>
+        <a class="btn" href="tel:+60">📞 Call</a>
+        <a class="btn" id="saveVcf" href="#" download="Hannis-Farhad.vcf">👤 Save contact</a>
+        <a class="btn" href="https://myqrcode.mobi/qr/ec5c1adb/view" target="_blank" rel="noopener">🔗 My Link</a>
+      </div>
+
+      <div class="grid">
+        <div class="tile">
+          <h3>About</h3>
+          <div class="muted">Tender data, volume calcs, nitrogen leak testing &amp; purging, hot oil flushing, and warehouse/QA docs.</div>
+        </div>
+        <div class="tile">
+          <h3>Current Projects</h3>
+          <div class="muted">
+            • Kemaman butane tank purging (25,000 m³)<br/>
+            • Hydrojetting head 3D prototype
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <div>
+        <h3 style="margin:0 0 8px">Scan to open</h3>
+        <div class="qr">
+          <img id="qrImg" alt="QR Code" width="200" height="200" />
+        </div>
+        <div class="footnote" style="margin-top:10px">QR always points to the current page URL once hosted on GitHub Pages.</div>
+      </div>
+
+      <div class="tile">
+        <h3>Direct Contacts</h3>
+        <div class="muted">
+          ✉️ farhad@mccsw.com<br/>
+          🏢 MCCS International<br/>
+          🌏 Malaysia
+        </div>
+      </div>
+
+      <div class="tile">
+        <h3>Social</h3>
+        <div class="muted">
+          <a class="btn" href="#" aria-label="LinkedIn">in LinkedIn</a>
+          <a class="btn" href="#" aria-label="GitHub">GH GitHub</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // vCard generator
+    const vcf = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "N:Farhad;Hannis;;;",
+      "FN:Hannis Farhad",
+      "ORG:MCCS International",
+      "TITLE:Jr. Mechanical Engineer",
+      "EMAIL;TYPE=INTERNET;TYPE=WORK:farhad@mccsw.com",
+      "TEL;TYPE=CELL:+60",
+      "URL:",
+      "END:VCARD"
+    ].join("\n");
+    const blob = new Blob([vcf], {type: "text/vcard"});
+    const url = URL.createObjectURL(blob);
+    const save = document.getElementById("saveVcf");
+    save.href = url;
+
+    // Generate QR that points to *this* page (works automatically on GitHub Pages)
+    const here = encodeURIComponent(window.location.href);
+    document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${here}`;
+  </script>
+</body>
+</html>
