@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bouncy Ball</title>
+  <style>
+    :root{
+      /* Dark blue contemporary theme */
+      --bg:#0b1220;            /* page background */
+      --fg:#e6eef9;            /* primary text */
+      --muted:#9fb0c7;         /* secondary text */
+      --line:#2a3b62;          /* strokes */
+      --accent:#7db6ff;        /* accent cyan/blue */
+      --glass1:rgba(21,35,66,0.55);
+      --glass2:rgba(21,35,66,0.35);
+      --glass-border:rgba(125,182,255,0.22);
+      --thumb:#9ad1ff;
+      --thumb-hover:#c8e3ff;
+    }
+    html, body { height: 100%; margin: 0; background:var(--bg); color:var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial; }
+    .wrap { height: 100%; display: grid; place-items: center; }
+    canvas { width: min(90vmin, 1000px); height: min(90vmin, 1000px); display:block; touch-action: none; }
+    .hint { position: fixed; inset-block-end: 12px; inset-inline: 12px; opacity: .85; font-size: 12px; color:var(--muted); }
+
+    /* ——— Glassmorphism Control Panel ——— */
+    .panel{
+      position: fixed; top: 16px; left: 16px; width: 320px; max-width: 92vw;
+      background: linear-gradient(180deg, var(--glass1), var(--glass2));
+      border: 1px solid var(--glass-border);
+      border-radius: 18px; padding: 14px 14px 10px;
+      box-shadow: 0 12px 40px rgba(10,17,34,.45), inset 0 1px 0 rgba(255,255,255,.05);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      overflow: hidden;
+    }
+    /* subtle glass sheen */
+    .panel::before{
+      content:""; position:absolute; inset:0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.06), transparent 35%),
+        linear-gradient( to bottom, rgba(255,255,255,.03), rgba(255,255,255,0) 40%);
+      pointer-events:none;
+    }
+    .panel h3{ margin:0 0 10px; font-size:13px; letter-spacing:.4px; color:var(--muted); font-weight:600; text-transform:uppercase; }
+
+    .row{ display:grid; grid-template-columns: 1fr auto; align-items:center; gap:10px; margin:8px 0; }
+    .row label{ font-size:13px; color:var(--fg); opacity:.95; }
+    .sep{ height:1px; background:linear-gradient(90deg, transparent, var(--glass-border), transparent); margin:10px 2px; opacity:.9; }
+
+    /* Controls — glassy treatment */
+    .row input[type="range"], .row select, .row input[type="number"]{
+      -webkit-appearance:none; appearance:none;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--glass-border);
+      border-radius:12px; padding: 6px 8px; color:var(--fg); width: 150px;
+      outline:none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .row input[type="color"]{ width: 42px; height: 28px; border:none; background:transparent; border-radius:8px; box-shadow: 0 0 0 1px var(--glass-border); }
+
+    /* Range details */
+    .row input[type="range"]{ height: 28px; padding:0 6px; }
+    .row input[type="range"]::-webkit-slider-runnable-track{
+      height: 6px; border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), rgba(125,182,255,.25));
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.35);
+    }
+    .row input[type="range"]::-moz-range-track{
+      height: 6px; border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), rgba(125,182,255,.25));
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.35);
+    }
+    .row input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none; appearance:none; margin-top:-7px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, var(--thumb-hover), var(--thumb));
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow: 0 6px 18px rgba(122,187,255,.45);
+      cursor: pointer;
+    }
+    .row input[type="range"]::-moz-range-thumb{
+      width: 18px; height: 18px; border-radius: 50%; cursor:pointer;
+      background: radial-gradient(circle at 30% 30%, var(--thumb-hover), var(--thumb));
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow: 0 6px 18px rgba(122,187,255,.45);
+    }
+    .row input[type="range"]:hover::-webkit-slider-thumb{ filter:brightness(1.1); }
+    .row input[type="range"]:hover::-moz-range-thumb{ filter:brightness(1.1); }
+
+    /* Select */
+    .row select{ background-image: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
+
+    /* Buttons */
+    .btns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .btn{ cursor:pointer; border:1px solid var(--glass-border); color:var(--fg);
+      background: linear-gradient(180deg, rgba(125,182,255,.22), rgba(125,182,255,.08));
+      padding:8px 12px; border-radius:12px; font-size:12px; letter-spacing:.2px;
+      box-shadow: 0 8px 24px rgba(10,17,34,.35), inset 0 1px 0 rgba(255,255,255,.07);
+      transition: transform .06s ease, box-shadow .15s ease, filter .15s ease;
+    }
+    .btn:hover{ filter: brightness(1.08); box-shadow: 0 10px 28px rgba(10,17,34,.45), inset 0 1px 0 rgba(255,255,255,.12); }
+    .btn:active{ transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="world" width="1000" height="1000" aria-label="Sandbox: click to launch balls"></canvas>
+  </div>
+  <div class="panel" id="panel">
+    <h3>Settings</h3>
+    <div class="row">
+      <label>Gravity <span id="gval" style="color:var(--muted)"></span></label>
+      <input id="gravity" type="range" min="-5" max="5" step="0.1" value="0"/>
+    </div>
+    <div class="row">
+      <label>Bounciness</label>
+      <input id="rest" type="range" min="0.5" max="1.05" step="0.01" value="0.95"/>
+    </div>
+    <div class="row">
+      <label>Launch speed</label>
+      <input id="speed" type="range" min="50" max="600" step="10" value="200"/>
+    </div>
+    <div class="row">
+      <label>Ball radius (new)</label>
+      <input id="radius" type="range" min="6" max="40" step="1" value="14"/>
+    </div>
+    <div class="row">
+      <label>Log speed gain</label>
+      <input id="logk" type="range" min="0" max="0.2" step="0.005" value="0.05"/>
+    </div>
+    <div class="row">
+      <label>Wall tethers per hit</label>
+      <select id="tethers">
+        <option value="2">2</option>
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <div class="row">
+      <label>Color mode</label>
+      <select id="colormode">
+        <option value="random" selected>Random palette</option>
+        <option value="pick">Use picker</option>
+      </select>
+    </div>
+    <div class="row">
+      <label>Ball color (picker)</label>
+      <input id="colorpick" type="color" value="#7BDFF2"/>
+    </div>
+    <div class="sep"></div>
+    <div class="btns">
+      <button class="btn" id="clear">Clear balls</button>
+      <button class="btn" id="recolor">Recolor existing</button>
+      <button class="btn" id="toggleElim">Elimination: ON</button>
+      <button class="btn" id="pause">Pause</button>
+    </div>
+  </div>
+  <div class="hint">Aim with your mouse. <b>Click inside the circle</b> to launch a ball along the arrow. All settings update live.</div>
+
+  <script>
+    const canvas = document.getElementById('world');
+    const ctx = canvas.getContext('2d');
+
+    // Live settings
+    const settings = {
+      gravity: 0,
+      restitution: 0.95,
+      startSpeed: 200,
+      radius: 14,
+      logK: 0.05,          // multiplier for log(1+bounces)
+      tethersPerHit: 3,    // 2..4
+      colorMode: 'random', // 'random' | 'pick'
+      colorPick: '#7BDFF2',
+      elimination: true,
+      paused: false,
+    };
+
+    // Panel hookups
+    const $ = id=>document.getElementById(id);
+    const gval = $('gval');
+    $('gravity').addEventListener('input', e=>{ settings.gravity = +e.target.value; gval.textContent = ` (${settings.gravity.toFixed(1)})`; });
+    $('rest').addEventListener('input', e=>{ settings.restitution = +e.target.value; });
+    $('speed').addEventListener('input', e=>{ settings.startSpeed = +e.target.value; });
+    $('radius').addEventListener('input', e=>{ settings.radius = +e.target.value; });
+    $('logk').addEventListener('input', e=>{ settings.logK = +e.target.value; });
+    $('tethers').addEventListener('change', e=>{ settings.tethersPerHit = +e.target.value; });
+    $('colormode').addEventListener('change', e=>{ settings.colorMode = e.target.value; });
+    $('colorpick').addEventListener('input', e=>{ settings.colorPick = e.target.value; });
+    $('clear').addEventListener('click', ()=>{ balls.length = 0; });
+    $('recolor').addEventListener('click', ()=>{ for (const b of balls) b.color = pickColor(); });
+    $('toggleElim').addEventListener('click', (e)=>{ settings.elimination = !settings.elimination; e.target.textContent = `Elimination: ${settings.elimination? 'ON':'OFF'}`; });
+    $('pause').addEventListener('click', (e)=>{ settings.paused = !settings.paused; e.target.textContent = settings.paused? 'Resume':'Pause'; });
+
+    // Resize / DPR
+    function resizeCanvas() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const displaySize = Math.min(window.innerWidth, window.innerHeight) * 0.9;
+      const size = Math.min(1000, Math.max(360, displaySize));
+      canvas.style.width = canvas.style.height = size + 'px';
+      canvas.width = Math.round(size * dpr);
+      canvas.height = Math.round(size * dpr);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+
+    function getCenter() { return { x: canvas.width / 2, y: canvas.height / 2 }; }
+    function getRadius() { return Math.min(canvas.width, canvas.height) * 0.45; }
+
+    function reflect(vx, vy, nx, ny) {
+      const dot = vx * nx + vy * ny;
+      return { vx: vx - 2 * dot * nx, vy: vy - 2 * dot * ny };
+    }
+
+    function pointSegDist(px, py, ax, ay, bx, by) {
+      const abx = bx - ax, aby = by - ay;
+      const apx = px - ax, apy = py - ay;
+      const ab2 = abx*abx + aby*aby;
+      let t = ab2 ? (apx*abx + apy*aby) / ab2 : 0;
+      t = Math.max(0, Math.min(1, t));
+      const cx = ax + t * abx, cy = ay + t * aby;
+      return Math.hypot(px - cx, py - cy);
+    }
+
+    // Ball class
+    class Ball {
+      constructor(x, y, r, vx, vy, color, name, baseSpeed) {
+        this.x = x; this.y = y; this.r = r; this.vx = vx; this.vy = vy; this.color = color; this.name = name;
+        this.anchors = [];            // unlimited tether anchors
+        this.wallCooldownUntil = 0;   // debounce for wall hit logging
+        this.hadAnyTether = false;    // for elimination rule
+        this.alive = true;
+        this.baseSpeed = baseSpeed;
+        this.bounceCount = 0;         // for logarithmic speed growth
+      }
+      increaseSpeed() {
+        this.bounceCount++;
+        const speed = Math.hypot(this.vx, this.vy) || 1;
+        const factor = 1 + Math.log(1 + this.bounceCount) * settings.logK; // logarithmic growth
+        const newSpeed = this.baseSpeed * factor;
+        const scale = newSpeed / speed;
+        this.vx *= scale; this.vy *= scale;
+      }
+      step(dt, tNow, Cx, Cy, R) {
+        if (!this.alive) return;
+        // gravity
+        this.vy += settings.gravity * dt * 60;
+        // integrate
+        this.x += this.vx * dt; this.y += this.vy * dt;
+
+        // circle wall collision
+        const dx = this.x - Cx, dy = this.y - Cy;
+        let dist = Math.hypot(dx, dy);
+        const limit = R - this.r;
+        if (dist > limit) {
+          const nx = dist === 0 ? 1 : dx / dist;
+          const ny = dist === 0 ? 0 : dy / dist;
+
+          // spawn N anchors along the rim near the impact normal
+          if (tNow >= this.wallCooldownUntil) {
+            const baseAng = Math.atan2(ny, nx);
+            const n = settings.tethersPerHit; // 2..4
+            const spread = Math.PI / 30;
+            for (let k = 0; k < n; k++) {
+              const offset = (k - (n-1)/2) * spread;
+              const ang = baseAng + offset;
+              const ax = Cx + Math.cos(ang) * limit;
+              const ay = Cy + Math.sin(ang) * limit;
+              this.anchors.push({ x: ax, y: ay });
+            }
+            this.wallCooldownUntil = tNow + 0.06;
+            this.hadAnyTether = true;
+          }
+
+          // push inside & reflect with restitution
+          const overlap = dist - limit;
+          this.x -= nx * overlap; this.y -= ny * overlap;
+          const rV = reflect(this.vx, this.vy, nx, ny);
+          this.vx = rV.vx * settings.restitution;
+          this.vy = rV.vy * settings.restitution;
+
+          this.increaseSpeed();
+        }
+      }
+      draw(ctx) {
+        if (!this.alive) return;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+      drawTethers(ctx) {
+        if (!this.alive || !this.anchors.length) return;
+        ctx.save();
+        ctx.globalAlpha = 0.9;
+        for (let i = 0; i < this.anchors.length; i++) {
+          const a = this.anchors[i];
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          ctx.lineTo(a.x, a.y);
+          ctx.lineWidth = Math.max(1, canvas.width * 0.003);
+          ctx.strokeStyle = this.color;
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+    }
+
+    // State
+    const palette = ['#7BDFF2', '#F7D6E0', '#B2F7EF', '#F7E7A1', '#FFD6A5', '#FFAAA5', '#D4A5A5', '#A5FFD6', '#A5D6FF', '#E2A5FF'];
+    const balls = [];
+    function pickColor(){ return settings.colorMode === 'pick' ? settings.colorPick : palette[Math.floor(Math.random()*palette.length)]; }
+
+    // Add ball at a point with an angle
+    function addBallAt(x, y, angleRad=null) {
+      const C = getCenter();
+      const R = getRadius();
+      const dx = x - C.x, dy = y - C.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist > R - settings.radius) return; // outside play area
+      const ang = angleRad === null ? Math.random() * Math.PI * 2 : angleRad;
+      const vx = Math.cos(ang) * settings.startSpeed;
+      const vy = Math.sin(ang) * settings.startSpeed;
+      const b = new Ball(x, y, settings.radius, vx, vy, pickColor(), `Ball ${balls.length+1}`, settings.startSpeed);
+      balls.push(b);
+    }
+
+    // Collisions & tethers
+    function handleBallCollisions() {
+      for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+          const b1 = balls[i], b2 = balls[j];
+          if (!b1.alive || !b2.alive) continue;
+          const dx = b2.x - b1.x, dy = b2.y - b1.y;
+          const dist = Math.hypot(dx, dy);
+          const minDist = b1.r + b2.r;
+          if (dist < minDist && dist > 0) {
+            const nx = dx / dist, ny = dy / dist;
+            const overlap = (minDist - dist) / 2;
+            b1.x -= nx * overlap; b1.y -= ny * overlap;
+            b2.x += nx * overlap; b2.y += ny * overlap;
+            const kx = b1.vx - b2.vx, ky = b1.vy - b2.vy;
+            const p = 2 * (nx*kx + ny*ky) / 2; // equal mass
+            b1.vx -= p * nx; b1.vy -= p * ny;
+            b2.vx += p * nx; b2.vy += p * ny;
+
+            b1.increaseSpeed();
+            b2.increaseSpeed();
+          }
+        }
+      }
+    }
+
+    function handleTetherSnapsAndElims() {
+      // Snap when another ball intersects a tether segment
+      for (let i = 0; i < balls.length; i++) {
+        const A = balls[i];
+        if (!A.alive) continue;
+        for (let j = 0; j < balls.length; j++) {
+          if (i === j) continue;
+          const B = balls[j];
+          if (!B.alive || !B.anchors.length) continue;
+          for (let k = B.anchors.length - 1; k >= 0; k--) {
+            const a = B.anchors[k];
+            const d = pointSegDist(A.x, A.y, a.x, a.y, B.x, B.y);
+            if (d <= A.r) { B.anchors.splice(k, 1); }
+          }
+        }
+      }
+      if (settings.elimination){
+        for (const b of balls) {
+          if (b.alive && b.hadAnyTether && b.anchors.length === 0) { b.alive = false; }
+        }
+      }
+    }
+
+    // Pointer control: aim arrow follows cursor movement
+    let cursor = {x: 0, y: 0, inside: false};
+    let aimAngle = 0; // radians
+    let lastMove = null;
+
+    function canvasToLocalXY(evt){
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const x = (evt.clientX - rect.left) * scaleX;
+      const y = (evt.clientY - rect.top) * scaleY;
+      return {x,y};
+    }
+
+    function onPointerMove(evt){
+      const p = canvasToLocalXY(evt);
+      cursor.x = p.x; cursor.y = p.y;
+      const C = getCenter();
+      const R = getRadius();
+      cursor.inside = Math.hypot(p.x - C.x, p.y - C.y) <= R - settings.radius;
+      if (lastMove) {
+        const dx = p.x - lastMove.x;
+        const dy = p.y - lastMove.y;
+        if (dx*dx + dy*dy > 0.01) { aimAngle = Math.atan2(dy, dx); }
+      }
+      lastMove = p;
+    }
+
+    function onPointerLeave(){ cursor.inside = false; lastMove = null; }
+    function onPointerDown(evt){ if (cursor.inside) addBallAt(cursor.x, cursor.y, aimAngle); }
+
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerleave', onPointerLeave);
+    canvas.addEventListener('pointerdown', onPointerDown);
+
+    // Loop
+    let last = performance.now();
+    function frame(tms) {
+      const dt = clamp((tms - last) / 1000, 0, 0.033);
+      last = tms;
+      const tNow = tms / 1000;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const C = getCenter();
+      const R = getRadius();
+
+      // boundary
+      ctx.beginPath();
+      ctx.arc(C.x, C.y, R, 0, Math.PI * 2);
+      ctx.lineWidth = Math.max(2, canvas.width * 0.01);
+      ctx.strokeStyle = '#36415f';
+      ctx.stroke();
+
+      if (!settings.paused){
+        // physics
+        for (const b of balls) b.step(dt, tNow, C.x, C.y, R);
+        handleBallCollisions();
+        handleTetherSnapsAndElims();
+      }
+
+      // aim arrow
+      if (cursor.inside) {
+        const L = Math.max(30, canvas.width * 0.04);
+        const tipX = cursor.x + Math.cos(aimAngle) * L;
+        const tipY = cursor.y + Math.sin(aimAngle) * L;
+        ctx.save();
+        ctx.lineWidth = Math.max(2, canvas.width * 0.006);
+        ctx.strokeStyle = '#9ad1ff';
+        ctx.beginPath();
+        ctx.moveTo(cursor.x, cursor.y);
+        ctx.lineTo(tipX, tipY);
+        ctx.stroke();
+        const head = Math.max(6, canvas.width * 0.01);
+        const left = aimAngle + Math.PI * 0.85;
+        const right = aimAngle - Math.PI * 0.85;
+        ctx.beginPath();
+        ctx.moveTo(tipX, tipY);
+        ctx.lineTo(tipX + Math.cos(left) * head, tipY + Math.sin(left) * head);
+        ctx.lineTo(tipX + Math.cos(right) * head, tipY + Math.sin(right) * head);
+        ctx.closePath();
+        ctx.fillStyle = '#9ad1ff';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // draw balls & tethers
+      for (const b of balls) b.drawTethers(ctx);
+      for (const b of balls) b.draw(ctx);
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>
