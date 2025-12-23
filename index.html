@@ -350,19 +350,33 @@
       }
     }
 
-    // --- vCard (download) ---
-    const vcf = [
-      "BEGIN:VCARD","VERSION:3.0",
-      "N:Farhad;Hannis;;;",
-      "FN:Hannis Farhad",
-      "ORG:MCCS International",
-      "TITLE:Jr. Mechanical Engineer",
-      "EMAIL;TYPE=INTERNET;TYPE=WORK:farhad@mccsw.com",
-      "TEL;TYPE=CELL:+601125605471",
-      "URL:https://www.mccsinternational.com",
-      "END:VCARD"
-    ].join("\\n");
-    document.getElementById("saveVcf").href = URL.createObjectURL(new Blob([vcf],{type:"text/vcard"}));
-  </script>
+  // Build your exact vCard text (CRLF line endings are best for compatibility)
+  const vcardText = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "FN;CHARSET=UTF-8:Hannis Farhad",
+    "N;CHARSET=UTF-8:;Hannis Farhad;;;",
+    "GENDER:M",
+    "EMAIL;CHARSET=UTF-8;TYPE=WORK,INTERNET:farhad@mccsw.com",
+    // If you later have the real Base64 image, replace IMAGEDATA.. with the full string.
+    "LOGO;ENCODING=b;TYPE=PNG:IMAGEDATA..",
+    "TEL;TYPE=CELL:+601125605471",
+    "LABEL;CHARSET=UTF-8;TYPE=WORK:B-13A-4\\, Megan Avenue II",
+    "ADR;CHARSET=UTF-8;TYPE=WORK:;;12\\, Jalan Yap Kwan Seng;Kuala Lumpur;WP Kuala Lumpur;50450;Malaysia",
+    "TITLE;CHARSET=UTF-8:Jr. Mechanical Engineer",
+    "ORG;CHARSET=UTF-8:MCCS Malaysia",
+    "URL;TYPE=WORK;CHARSET=UTF-8:https://www.mccsinternational.com/",
+    "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/hannisfarhad/",
+    "X-SOCIALPROFILE;TYPE=Digital Card:https://card.hfsocial.com",
+    "REV:2025-12-23T01:51:26.319Z",
+    "END:VCARD"
+  ].join("\r\n");
+
+  const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.getElementById("saveVcf");
+  link.setAttribute("href", url);
+  link.setAttribute("download", "Hannis-Farhad.vcf");
+</script>
 </body>
 </html>
