@@ -1,382 +1,322 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title> Hannis Farhad — Virtual Card</title>
-  <meta name="description" content="Business card for Abdul Hannis Farhad Abdul Wahid (MCCS Malaysia)" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannis Farhad — Virtual Card</title>
+    <meta name="description" content="Business card for Abdul Hannis Farhad Abdul Wahid (MCCS Malaysia)" />
+    
+    <!-- Scripts & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+            margin: 0;
+        }
 
-  <style>
-    :root{
-      --blue:#003298;
-      --green:#71b400;
-      --ink:#111;
-      --muted:#4b5563;
-      --card:#fff;
-      --rule:#eef2f7;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--ink);
-      background:#f5f5f5;
-    }
-    body.splashing{ overflow:hidden; }
+        /* Splash Logic */
+        #splash {
+            position: fixed; inset: 0;
+            background: #0f172a;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity .45s ease;
+        }
+        #splash.hide {
+            opacity: 0; pointer-events: none; visibility: hidden;
+        }
+        .spinner {
+            width: 30px; height: 30px; border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.1); border-top-color: #3b82f6;
+            animation: spin .8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Splash (centered) */
-    #splash{
-      position: fixed; inset: 0;
-      background: #ffffff;
-      display: flex; align-items: center; justify-content: center;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right)
-               env(safe-area-inset-bottom) env(safe-area-inset-left);
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity .45s ease;
-    }
-    .splash-inner{
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-    }
-    #splash img{
-      width: 110px; height: auto; display:block;
-      filter: drop-shadow(0 6px 14px rgba(0,0,0,.12));
-    }
-    #splash.hide{
-      opacity: 0; pointer-events: none; visibility: hidden;
-      transition: opacity .45s ease, visibility 0s linear .45s;
-    }
-    .spinner{
-      width: 20px; height: 20px; border-radius: 50%;
-      border: 2px solid #e5e7eb; border-top-color: var(--blue);
-      animation: spin .8s linear infinite;
-    }
-    @keyframes spin{ to { transform: rotate(360deg); } }
-    @media (prefers-reduced-motion: reduce){
-      #splash, #splash.hide{ transition: none; }
-      .spinner{ animation: none; }
-    }
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    /* Header */
-    .hero{
-      background:var(--blue);
-      color:#fff;
-      text-align:center;
-      padding:40px 20px 60px;
-    }
-    .logo-wrap{
-      width:120px;height:120px;margin:0 auto 16px;border-radius:50%;
-      background:rgba(255,255,255,.18);
-      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 6px 18px rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.35);
-    }
-    .logo{max-width:72%;max-height:72%;display:block}
-    h1{margin:0 0 14px;font-size:1.6rem;font-weight:600;letter-spacing:.2px}
-    .contact-btn{
-      background:transparent;border:2px solid var(--green);color:var(--green);
-      padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:600;
-      display:inline-block
-    }
-    .contact-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+        /* Tab Transitions */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-    /* Tabs */
-    .tabs{
-      display:flex;justify-content:center;background:#fff;position:relative;top:-25px;
-      border-radius:12px 12px 0 0;box-shadow:0 -2px 6px rgba(0,0,0,.08);
-      width:max-content;margin:0 auto
-    }
-    .tab{
-      padding:12px 22px;cursor:pointer;border:0;background:transparent;
-      border-bottom:3px solid transparent;font-weight:600;color:#cbd5e1
-    }
-    .tab.active{border-bottom-color:var(--blue);color:var(--ink)}
-
-    /* Cards */
-    .card{
-      max-width:720px;background:var(--card);margin:0 auto 40px;padding:24px;
-      border-radius:0 0 12px 12px;box-shadow:0 2px 10px rgba(0,0,0,.06)
-    }
-    .row{
-      display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;
-      padding:14px 0;border-bottom:1px solid var(--rule)
-    }
-    .row:last-child{border-bottom:none}
-    .icon{width:20px;height:20px;stroke:var(--ink);stroke-width:1.6;fill:none}
-    .label{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:4px}
-    .value a{color:var(--blue);text-decoration:none}
-    .value a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-
-    .center{text-align:center}
-    .social-link{color:var(--blue);text-decoration:none;font-weight:600}
-
-    @media (max-width:560px){
-      .row{grid-template-columns:22px 1fr}
-      .logo-wrap{width:108px;height:108px}
-    }
-	/* —— Glassmorphism (matches sandbox theme) —— */
-	:root{
-	  --glass1: rgba(21,35,66,0.55);
-	  --glass2: rgba(21,35,66,0.35);
-	  --glass-border: rgba(125,182,255,0.22);
-	  --glass-accent: #7db6ff;      /* same accent family as sandbox */
-	}
-
-	/* base fun button keeps your sizing */
-	.fun-btn{
-	  display:inline-block;
-	  margin-top:12px;
-	  padding:10px 16px;
-	  border-radius:12px;
-	  font-weight:600;
-	  text-decoration:none;
-	  transition: transform .12s ease, filter .15s ease, box-shadow .2s ease;
-	}
-
-	/* glass treatment */
-	.fun-btn.glass{
-	  position:relative;
-	  color:#e6eef9;
-	  background: linear-gradient(180deg, var(--glass1), var(--glass2));
-	  border: 1px solid var(--glass-border);
-	  box-shadow:
-		0 10px 28px rgba(10,17,34,.45),
-		inset 0 1px 0 rgba(255,255,255,.06);
-	  backdrop-filter: blur(12px) saturate(130%);
-	  -webkit-backdrop-filter: blur(12px) saturate(130%);
-	}
-
-	/* subtle sheen */
-	.fun-btn.glass::before{
-	  content:"";
-	  position:absolute; inset:0;
-	  background:
-		linear-gradient(120deg, rgba(255,255,255,.06), transparent 35%),
-		linear-gradient(to bottom, rgba(255,255,255,.03), rgba(255,255,255,0) 45%);
-	  border-radius: inherit;
-	  pointer-events:none;
-	}
-
-	/* hover / active / focus */
-	.fun-btn.glass:hover{
-	  filter: brightness(1.08);
-	  box-shadow:
-		0 14px 34px rgba(10,17,34,.55),
-		inset 0 1px 0 rgba(255,255,255,.12);
-	  transform: translateY(-1px);
-	}
-	.fun-btn.glass:active{
-	  transform: translateY(0);
-	  filter: brightness(1.02);
-	}
-	.fun-btn.glass:focus-visible{
-	  outline: 2px solid var(--glass-accent);
-	  outline-offset: 3px;
-	  box-shadow:
-		0 14px 34px rgba(10,17,34,.55),
-		0 0 0 4px rgba(125,182,255,.16);
-	}
-
-	/* optional: small icon gap tune */
-	.fun-btn.glass::after{
-	  content:"";
-	  margin-left:.25em;
-	}
-
-  </style>
+        /* Custom Sandbox Button Style */
+        .fun-btn.glass {
+            position: relative;
+            color: #e6eef9;
+            background: linear-gradient(180deg, rgba(21,35,66,0.55), rgba(21,35,66,0.35));
+            border: 1px solid rgba(125,182,255,0.22);
+            box-shadow: 0 10px 28px rgba(10,17,34,.45), inset 0 1px 0 rgba(255,255,255,.06);
+            backdrop-filter: blur(12px) saturate(130%);
+            transition: all 0.2s ease;
+        }
+        .fun-btn.glass:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-  <!-- Splash / Loading Screen -->
-  <div id="splash" aria-hidden="true">
-    <div class="splash-inner">
-      <img src="loading-logo.png" alt="MCCS Loading">
-      <div class="spinner" aria-hidden="true"></div>
-    </div>
-  </div>
-
-  <!-- Header -->
-  <header class="hero">
-    <div class="logo-wrap">
-      <img class="logo" src="logo.png" alt="MCCS Logo">
-    </div>
-    <h1>Abdul Hannis Farhad Abdul Wahid</h1>
-    <a href="#" id="saveVcf" download="Hannis-Farhad.vcf" class="contact-btn">+ Add to contacts</a>
-  </header>
-
-  <!-- Tabs -->
-  <div class="tabs" role="tablist" aria-label="Sections">
-    <button class="tab active" role="tab" aria-selected="true" onclick="showTab('contact', this)">Contact</button>
-    <button class="tab" role="tab" aria-selected="false" onclick="showTab('company', this)">Company</button>
-    <button class="tab" role="tab" aria-selected="false" onclick="showTab('socials', this)">Socials</button>
-  </div>
-
-  <!-- CONTACT -->
-  <section id="contact" class="card" role="tabpanel" aria-labelledby="contact-tab">
-    <div class="row">
-      <!-- phone -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M22 16.9v3a2 2 0 0 1-2.18 2A19.9 19.9 0 0 1 11.2 19a19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.12.86.33 1.7.63 2.5a2 2 0 0 1-.45 2.11L8 9.6a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.8.3 1.64.51 2.5.63A2 2 0 0 1 22 16.9z"/>
-      </svg>
-      <div class="value"><div class="label">Phone number</div><a href="tel:+601125605471">+601125605471</a></div>
+    <!-- Splash / Loading Screen -->
+    <div id="splash" aria-hidden="true">
+        <div class="flex flex-col items-center gap-6">
+            <img src="logo.png" alt="MCCS Loading" class="w-24 h-auto opacity-80" onerror="this.style.display='none'">
+            <div class="spinner"></div>
+        </div>
     </div>
 
-    <div class="row">
-      <!-- mail -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
-        <path d="M22 6 12 13 2 6"/>
-      </svg>
-      <div class="value"><div class="label">Email</div><a href="mailto:farhad@mccsw.com">farhad@mccsw.com</a></div>
+    <!-- Main Card Container -->
+    <div class="max-w-md w-full glass-card rounded-[2.5rem] shadow-2xl overflow-hidden relative">
+        
+        <!-- Header / Banner Area -->
+        <div class="h-32 bg-gradient-to-br from-blue-700 via-indigo-800 to-slate-900 relative">
+            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2">
+                <div class="w-24 h-24 rounded-2xl border-4 border-[#1e293b] overflow-hidden bg-white shadow-2xl">
+                    <!-- Your logo.png -->
+                    <img src="logo.png" alt="Profile" class="w-full h-full object-contain p-2 bg-white">
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="pt-16 pb-8 px-6">
+            <div class="text-center mb-6 px-4">
+                <h1 class="text-xl font-bold text-white leading-tight">Abdul Hannis Farhad <br> Abdul Wahid</h1>
+                <p class="text-blue-400 text-xs font-semibold uppercase tracking-widest mt-2">MCCS Malaysia</p>
+            </div>
+
+            <div class="flex justify-center mb-6">
+                <a href="#" id="saveVcf" download="Hannis-Farhad.vcf" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-blue-900/20 active:scale-95">
+                    <i class="fas fa-user-plus text-xs"></i> Add to contacts
+                </a>
+            </div>
+
+            <!-- Tab Navigation -->
+            <nav class="flex justify-around mb-8 border-b border-slate-700/50 relative">
+                <button onclick="switchTab('contact', 0)" id="btn-contact" class="pb-3 px-2 text-sm font-bold transition-all text-blue-400 border-b-2 border-blue-400">
+                    Contact
+                </button>
+                <button onclick="switchTab('company', 1)" id="btn-company" class="pb-3 px-2 text-sm font-bold transition-all text-slate-400 border-b-2 border-transparent hover:text-white">
+                    Company
+                </button>
+                <button onclick="switchTab('socials', 2)" id="btn-socials" class="pb-3 px-2 text-sm font-bold transition-all text-slate-400 border-b-2 border-transparent hover:text-white">
+                    Socials
+                </button>
+            </nav>
+
+            <!-- Tab Contents Wrapper -->
+            <div class="relative min-h-[320px]">
+                
+                <!-- CONTACT TAB -->
+                <div id="contact" class="tab-content active">
+                    <div class="space-y-3">
+                        <a href="tel:+601125605471" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="text-[10px] text-slate-500 uppercase font-black tracking-tighter">Phone Number</p>
+                                <p class="text-sm font-medium">+601125605471</p>
+                            </div>
+                        </a>
+
+                        <a href="mailto:farhad@mccsw.com" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="text-[10px] text-slate-500 uppercase font-black tracking-tighter">Email Address</p>
+                                <p class="text-sm font-medium truncate">farhad@mccsw.com</p>
+                            </div>
+                        </a>
+
+                        <a href="https://www.mccsinternational.com" target="_blank" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
+                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="text-[10px] text-slate-500 uppercase font-black tracking-tighter">Website</p>
+                                <p class="text-sm font-medium truncate">mccsinternational.com</p>
+                            </div>
+                        </a>
+
+                        <div class="flex items-start gap-4 p-4 bg-slate-800/20 rounded-2xl border border-white/5">
+                            <div class="w-10 h-10 shrink-0 rounded-xl bg-slate-500/10 flex items-center justify-center text-slate-400">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="text-[10px] text-slate-500 uppercase font-black tracking-tighter">Location</p>
+                                <p class="text-[11px] leading-relaxed text-slate-300">B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, Malaysia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPANY TAB -->
+                <div id="company" class="tab-content">
+                    <div class="space-y-4">
+                        <div class="bg-slate-800/30 p-5 rounded-2xl border border-white/5">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="fas fa-building text-blue-400"></i>
+                                <span class="text-sm font-bold text-white">MCCS MALAYSIA</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Profession</p>
+                            <p class="text-sm text-slate-200">Jr. Mechanical Engineer</p>
+                        </div>
+                        <div class="p-2">
+                            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Company Summary</h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                MCCS is a global EPCC sub-contractor for onshore/offshore oil & gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOCIALS TAB -->
+                <div id="socials" class="tab-content">
+                    <div class="flex flex-col items-center gap-6 pt-4 text-center">
+                        <a href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" class="w-full max-w-[240px] flex flex-col items-center p-6 bg-slate-800/40 rounded-3xl border border-white/5 hover:bg-slate-800 transition-all group">
+                            <div class="w-16 h-16 rounded-2xl bg-[#0A66C2]/10 flex items-center justify-center text-[#0A66C2] text-3xl mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <p class="text-sm font-bold">LinkedIn Profile</p>
+                            <p class="text-[11px] text-slate-500 mt-1">@hannisfarhad</p>
+                        </a>
+
+                        <a href="https://sandbox.hfsocial.com" target="_blank" rel="noopener" class="fun-btn glass px-8 py-4 rounded-2xl text-sm font-bold inline-flex items-center gap-3">
+                            <span class="text-lg">🎮</span> Play Sandbox Game
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Simple Social Row -->
+            <div class="mt-8 pt-6 border-t border-slate-700/50 flex justify-center gap-8">
+                <a href="https://www.linkedin.com/in/hannisfarhad/" class="text-slate-500 hover:text-blue-400 transition-colors text-xl"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:farhad@mccsw.com" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.mccsinternational.com" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fas fa-globe"></i></a>
+            </div>
+        </div>
     </div>
 
-    <div class="row">
-      <!-- globe -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M2 12h20"/>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-      </svg>
-      <div class="value"><div class="label">Personal website</div>
-        <a href="https://www.mccsinternational.com" target="_blank" rel="noopener">https://www.mccsinternational.com</a>
-      </div>
-    </div>
+    <script>
+        // --- Splash logic (min 1.5s, max 6s) ---
+        const MIN_SPLASH_MS = 1500;
+        const splash = document.getElementById('splash');
+        const started = Date.now();
 
-    <div class="row">
-      <!-- location -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21 10.5C21 16 12 22 12 22S3 16 3 10.5a9 9 0 1 1 18 0z"/>
-        <circle cx="12" cy="10.5" r="3"/>
-      </svg>
-      <div class="value"><div class="label">Location</div>
-        B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, WP Kuala Lumpur, Malaysia
-      </div>
-    </div>
-  </section>
+        function hideSplash(){
+            if(!splash) return;
+            splash.classList.add('hide');
+            setTimeout(()=> splash.remove(), 600);
+        }
 
-  <!-- COMPANY -->
-  <section id="company" class="card" role="tabpanel" aria-labelledby="company-tab" style="display:none;">
-    <div class="row">
-      <!-- building -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M3 22V10l9-7 9 7v12H3z"/>
-        <path d="M9 22V12h6v10"/>
-      </svg>
-      <div class="value"><div class="label">Company</div>MCCS MALAYSIA</div>
-    </div>
-    <div class="row">
-      <!-- user -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/>
-        <path d="M2 20c0-4 8-6 10-6s10 2 10 6"/>
-      </svg>
-      <div class="value"><div class="label">Profession</div>Jr. Mechanical Engineer</div>
-    </div>
-    <div class="row">
-      <!-- document/arrow -->
-      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      <div class="value"><div class="label">Summary</div>
-        MCCS is a global EPCC sub-contractor for onshore/offshore oil &amp; gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.
-      </div>
-    </div>
-  </section>
+        window.addEventListener('load', () => {
+            const elapsed = Date.now() - started;
+            const wait = Math.max(0, MIN_SPLASH_MS - elapsed);
+            setTimeout(hideSplash, wait);
+        });
 
-  <!-- SOCIALS -->
-<section id="socials" class="card center" role="tabpanel" aria-labelledby="socials-tab" style="display:none;">
-  <a class="social-link" href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" rel="noopener" aria-label="LinkedIn: Abdul Hannis Farhad Abdul Wahid">
-      <!-- LinkedIn logo (circle) -->
-      <svg width="64" height="64" viewBox="0 0 48 48" aria-hidden="true" style="display:block;margin:0 auto 8px;">
-        <circle cx="24" cy="24" r="22" fill="#0A66C2"/>
-        <rect x="14" y="20" width="4" height="14" fill="#fff"/>
-        <circle cx="16" cy="15.5" r="2.3" fill="#fff"/>
-        <path d="M23 20h4v2.2h.1c.6-1.1 2-2.4 4.3-2.4 3.5 0 5.6 2.2 5.6 6v8.3h-4V27c0-2-1-3.3-3-3.3-1.8 0-3 1.2-3 3.6v7H23V20z" fill="#fff"/>
-      </svg>
-    Abdul Hannis Farhad Abdul Wahid
-  </a>
+        // --- Tabs Logic with Directional Slide ---
+        let currentIdx = 0;
+        function switchTab(tabId, index) {
+            const tabs = ['contact', 'company', 'socials'];
+            const buttons = ['btn-contact', 'btn-company', 'btn-socials'];
+            
+            if (index === currentIdx) return;
 
-  <br><br>
+            const direction = index > currentIdx ? 'right' : 'left';
+            const activeTab = document.querySelector('.tab-content.active');
+            const targetTab = document.getElementById(tabId);
 
-	<a href="https://sandbox.hfsocial.com" target="_blank" rel="noopener"
-	   class="fun-btn glass"
-	   aria-label="Open Sandbox Game">🎮 Play Sandbox</a>
+            // Update Nav Buttons
+            buttons.forEach((btnId, i) => {
+                const btn = document.getElementById(btnId);
+                if (i === index) {
+                    btn.classList.add('text-blue-400', 'border-blue-400');
+                    btn.classList.remove('text-slate-400', 'border-transparent', 'hover:text-white');
+                } else {
+                    btn.classList.remove('text-blue-400', 'border-blue-400');
+                    btn.classList.add('text-slate-400', 'border-transparent', 'hover:text-white');
+                }
+            });
 
-</section>
+            // Animate Out current
+            activeTab.style.transform = direction === 'right' ? 'translateX(-30px)' : 'translateX(30px)';
+            activeTab.style.opacity = '0';
 
+            setTimeout(() => {
+                activeTab.classList.remove('active');
+                activeTab.style.display = 'none';
 
-  <script>
-    // --- Splash logic (min 1.5s, max 6s) ---
-    const MIN_SPLASH_MS = 1500;
-    const MAX_SPLASH_MS = 6000;
-    const splash = document.getElementById('splash');
-    const started = Date.now();
-    document.body.classList.add('splashing');
+                // Prepare and Animate In target
+                targetTab.style.display = 'block';
+                targetTab.style.transform = direction === 'right' ? 'translateX(30px)' : 'translateX(-30px)';
+                targetTab.style.opacity = '0';
+                
+                // Force reflow
+                targetTab.offsetHeight;
 
-    function hideSplash(){
-      if(!splash) return;
-      splash.classList.add('hide');
-      document.body.classList.remove('splashing');
-      setTimeout(()=> splash.remove(), 600);
-    }
+                targetTab.classList.add('active');
+                targetTab.style.transform = 'translateX(0)';
+                targetTab.style.opacity = '1';
+                
+                currentIdx = index;
+            }, 200); 
+        }
 
-    // Hide after load, but ensure at least MIN_SPLASH_MS has passed
-    window.addEventListener('load', () => {
-      const elapsed = Date.now() - started;
-      const wait = Math.max(0, MIN_SPLASH_MS - elapsed);
-      setTimeout(hideSplash, wait);
-    });
+        // --- vCard Logic (Preserved) ---
+        const vcardText = [
+            "BEGIN:VCARD",
+            "VERSION:3.0",
+            "FN;CHARSET=UTF-8:Hannis Farhad",
+            "N;CHARSET=UTF-8:;Hannis Farhad;;;",
+            "GENDER:M",
+            "EMAIL;CHARSET=UTF-8;TYPE=WORK,INTERNET:farhad@mccsw.com",
+            "TEL;TYPE=CELL:+601125605471",
+            "ADR;CHARSET=UTF-8;TYPE=WORK:;;12\\, Jalan Yap Kwan Seng;Kuala Lumpur;WP Kuala Lumpur;50450;Malaysia",
+            "TITLE;CHARSET=UTF-8:Jr. Mechanical Engineer",
+            "ORG;CHARSET=UTF-8:MCCS Malaysia",
+            "URL;TYPE=WORK;CHARSET=UTF-8:https://www.mccsinternational.com/",
+            "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/hannisfarhad/",
+            "END:VCARD"
+        ].join("\r\n");
 
-    // Safety cap
-    setTimeout(hideSplash, MAX_SPLASH_MS);
+        const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.getElementById("saveVcf");
+        link.setAttribute("href", url);
 
-    // --- Tabs ---
-    function showTab(id, btn){
-      document.querySelectorAll('.card').forEach(el => el.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-      document.querySelectorAll('.tab').forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected','false');
-      });
-      if(btn){
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected','true');
-      }
-    }
-
-  // Build your exact vCard text (CRLF line endings are best for compatibility)
-  const vcardText = [
-    "BEGIN:VCARD",
-    "VERSION:3.0",
-    "FN;CHARSET=UTF-8:Hannis Farhad",
-    "N;CHARSET=UTF-8:;Hannis Farhad;;;",
-    "GENDER:M",
-    "EMAIL;CHARSET=UTF-8;TYPE=WORK,INTERNET:farhad@mccsw.com",
-    // If you later have the real Base64 image, replace IMAGEDATA.. with the full string.
-    "LOGO;ENCODING=b;TYPE=PNG:IMAGEDATA..",
-    "TEL;TYPE=CELL:+601125605471",
-    "LABEL;CHARSET=UTF-8;TYPE=WORK:B-13A-4\\, Megan Avenue II",
-    "ADR;CHARSET=UTF-8;TYPE=WORK:;;12\\, Jalan Yap Kwan Seng;Kuala Lumpur;WP Kuala Lumpur;50450;Malaysia",
-    "TITLE;CHARSET=UTF-8:Jr. Mechanical Engineer",
-    "ORG;CHARSET=UTF-8:MCCS Malaysia",
-    "URL;TYPE=WORK;CHARSET=UTF-8:https://www.mccsinternational.com/",
-    "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/hannisfarhad/",
-    "X-SOCIALPROFILE;TYPE=Digital Card:https://card.hfsocial.com",
-    "REV:2025-12-23T01:51:26.319Z",
-    "END:VCARD"
-  ].join("\r\n");
-
-  const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.getElementById("saveVcf");
-  link.setAttribute("href", url);
-  link.setAttribute("download", "Hannis-Farhad.vcf");
-</script>
+        // Initial setup for first tab
+        window.onload = () => {
+            const contact = document.getElementById('contact');
+            contact.style.display = 'block';
+            setTimeout(() => {
+                contact.style.opacity = '1';
+                contact.style.transform = 'translateX(0)';
+            }, 50);
+        };
+    </script>
 </body>
 </html>
