@@ -6,7 +6,6 @@
     <title>Hannis Farhad — Virtual Card</title>
     <meta name="description" content="Business card for Abdul Hannis Farhad Abdul Wahid (MCCS Malaysia)" />
     
-    <!-- Favicon (Using your logo) -->
     <link rel="icon" type="image/png" href="logo.png">
 
     <!-- Scripts & Fonts -->
@@ -23,7 +22,6 @@
             margin: 0;
         }
 
-        /* --- New Multi-Layered Splash Screen --- */
         #splash-wrapper {
             position: fixed;
             inset: 0;
@@ -32,7 +30,6 @@
             overflow: hidden;
         }
 
-        /* The secondary "Grey" layer */
         .splash-layer-grey {
             position: absolute;
             inset: 0;
@@ -41,7 +38,6 @@
             transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* The primary "Main" layer */
         .splash-layer-main {
             position: absolute;
             inset: 0;
@@ -59,12 +55,10 @@
         }
 
         #splash-wrapper.hide .splash-layer-grey {
-            /* Slower transition and slight delay to create the offset movement */
             transform: translateY(-100%);
             transition-delay: 0.05s;
         }
 
-        /* Content fade out */
         .splash-content {
             display: flex;
             flex-direction: column;
