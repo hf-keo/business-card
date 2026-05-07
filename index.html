@@ -6,6 +6,7 @@
     <title>Hannis Farhad — Virtual Card</title>
     <meta name="description" content="Business card for Abdul Hannis Farhad Abdul Wahid (MCCS Malaysia)" />
     
+    <!-- Favicon (Using your logo) -->
     <link rel="icon" type="image/png" href="logo.png">
 
     <!-- Scripts & Fonts -->
@@ -22,6 +23,7 @@
             margin: 0;
         }
 
+        /* --- Multi-Layered Splash Screen --- */
         #splash-wrapper {
             position: fixed;
             inset: 0;
@@ -33,7 +35,7 @@
         .splash-layer-grey {
             position: absolute;
             inset: 0;
-            background: #71b400; /* Slate/Grey color */
+            background: #71b400; /* Logo Green */
             z-index: 1;
             transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
         }
@@ -63,7 +65,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            gap: 3rem;
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
@@ -72,16 +74,34 @@
             transform: translateY(-40px);
         }
 
-        .spinner {
-            width: 40px; 
-            height: 40px; 
+        /* --- Custom Theme-Colored Loader --- */
+        .loader {
+            width: 24px;
+            aspect-ratio: 1;
             border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.05); 
-            border-top-color: #003298; 
-            border-bottom-color: #71b400;
-            animation: spin 1s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+            background: #003298; /* Logo Blue */
+            animation: l2 1.5s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @keyframes l2 {
+            0%,
+            100% {
+                transform: translate(-30px);
+                box-shadow: 0 0 #71b400, 0 0 rgba(59, 130, 246, 0.5);
+            }
+            40% {
+                transform: translate(30px);
+                box-shadow: -12px 0 #71b400, -24px 0 rgba(59, 130, 246, 0.5);
+            }
+            50% {
+                transform: translate(30px);
+                box-shadow: 0 0 #71b400, 0 0 rgba(59, 130, 246, 0.5);
+            }
+            90% {
+                transform: translate(-30px);
+                box-shadow: 12px 0 #71b400, 24px 0 rgba(59, 130, 246, 0.5);
+            }
+        }
 
         /* Glassmorphism */
         .glass-card {
@@ -143,7 +163,8 @@
         <div class="splash-layer-main">
             <div class="splash-content">
                 <img src="logo.png" alt="MCCS Loading" class="w-24 h-auto" onerror="this.style.display='none'">
-                <div class="spinner"></div>
+                <!-- The new loader -->
+                <div class="loader"></div>
             </div>
         </div>
     </div>
@@ -270,7 +291,6 @@
         function hideSplash(){
             if(!wrapper) return;
             wrapper.classList.add('hide'); 
-            // Wait for the longest layer transition (1.4s + 0.1s delay)
             setTimeout(()=> wrapper.remove(), 1800);
         }
 
@@ -282,7 +302,6 @@
 
         let currentIdx = 0;
         function switchTab(tabId, index) {
-            const tabs = ['contact', 'company', 'socials'];
             const buttons = ['btn-contact', 'btn-company', 'btn-socials'];
             if (index === currentIdx) return;
 
