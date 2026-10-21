@@ -32,3 +32,10 @@ touch .nojekyll
 git add index.html .nojekyll
 git commit -m "Initial commit: My Animated Business Card"
 git push -u origin main
+
+
+## Static card maintenance
+
+The deployed card uses `index.html`, `styles.css`, `card.js`, `Hannis-Farhad.vcf`, and the existing logo. No package installation or build is required for GitHub Pages. `styles.css` contains the compiled Tailwind 3 utilities used by the card; keep that stylesheet in sync when adding new utility classes, or write additional ordinary CSS in the page. The standalone sandbox page is unchanged.
+
+Contact details are immediately visible. JavaScript enhances the sections into keyboard-accessible tabs; without it, all sections remain visible and the static contact download still works. Keep the contact details in both the HTML and `.vcf` file up to date.

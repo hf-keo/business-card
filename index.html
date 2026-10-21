@@ -6,12 +6,20 @@
     <title>Hannis Farhad — Virtual Card</title>
     <meta name="description" content="Business card for Farhad (MCCS Malaysia)" />
     
+    <link rel="canonical" href="https://card.hfsocial.com/">
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Hannis Farhad — Virtual Card">
+    <meta property="og:description" content="Connect with Hannis Farhad, Jr. Mechanical Engineer at MCCS Malaysia.">
+    <meta property="og:url" content="https://card.hfsocial.com/">
+    <meta property="og:image" content="https://card.hfsocial.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Favicon (Using your logo) -->
     <link rel="icon" type="image/png" href="logo.png">
 
     <!-- Scripts & Fonts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -21,86 +29,6 @@
             color: #f8fafc;
             overflow-x: hidden;
             margin: 0;
-        }
-
-        /* --- Multi-Layered Splash Screen --- */
-        #splash-wrapper {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            pointer-events: auto;
-            overflow: hidden;
-        }
-
-        .splash-layer-grey {
-            position: absolute;
-            inset: 0;
-            background: #71b400; /* Logo Green */
-            z-index: 1;
-            transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-
-        .splash-layer-main {
-            position: absolute;
-            inset: 0;
-            background: #0f172a;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-
-        #splash-wrapper.hide .splash-layer-main {
-            transform: translateY(-100%);
-        }
-
-        #splash-wrapper.hide .splash-layer-grey {
-            transform: translateY(-100%);
-            transition-delay: 0.05s;
-        }
-
-        .splash-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3rem;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        #splash-wrapper.hide .splash-content {
-            opacity: 0;
-            transform: translateY(-40px);
-        }
-
-        /* --- Custom Theme-Colored Loader --- */
-        .loader {
-            width: 24px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: #003298; /* Logo Blue */
-            animation: l2 1.5s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
-        }
-        
-        @keyframes l2 {
-            0%,
-            100% {
-                transform: translate(-30px);
-                box-shadow: 0 0 #71b400, 0 0 rgba(59, 130, 246, 0.5);
-            }
-            40% {
-                transform: translate(30px);
-                box-shadow: -12px 0 #71b400, -24px 0 rgba(59, 130, 246, 0.5);
-            }
-            50% {
-                transform: translate(30px);
-                box-shadow: 0 0 #71b400, 0 0 rgba(59, 130, 246, 0.5);
-            }
-            90% {
-                transform: translate(-30px);
-                box-shadow: 12px 0 #71b400, 24px 0 rgba(59, 130, 246, 0.5);
-            }
         }
 
         /* Glassmorphism */
@@ -113,10 +41,10 @@
 
         /* --- Layered Breathing Transitions for Tabs --- */
         .tab-content {
-            display: none;
-            opacity: 0;
+            display: block;
+            opacity: 1;
             transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform: scale(0.96) translateX(20px);
+            transform: none;
         }
 
         .tab-content.active {
@@ -140,6 +68,14 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
+        .tab-content[hidden] { display: none; }
+        .tab-content:not(.active) { margin-top: 1.5rem; }
+        :focus-visible { outline: 3px solid #60a5fa; outline-offset: 4px; }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .tab-content.active > div > * { opacity: 1; }
+        }
+
         /* Sandbox Button */
         .fun-btn.glass {
             position: relative;
@@ -157,19 +93,9 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <!-- Splash Screen Wrapper -->
-    <div id="splash-wrapper" aria-hidden="true">
-        <div class="splash-layer-grey"></div>
-        <div class="splash-layer-main">
-            <div class="splash-content">
-                <img src="loading-logo.png" alt="MCCS Loading" class="w-24 h-auto" onerror="this.style.display='none'">
-                <div class="loader"></div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Contact details are available immediately. -->
     <!-- Main Card Container -->
-    <div class="max-w-md w-full glass-card rounded-[2.5rem] shadow-2xl overflow-hidden relative">
+    <main class="max-w-md w-full glass-card rounded-[2.5rem] shadow-2xl overflow-hidden relative">
         
         <!-- Header Banner -->
         <div class="h-32 bg-gradient-to-br from-blue-700 via-indigo-800 to-slate-900 relative">
@@ -177,7 +103,7 @@
                 <!-- Removed bg-white and added flex for centering -->
                 <div class="w-24 h-24 rounded-2xl overflow-hidden flex items-center justify-center">
                     <!-- Removed bg-white and padding for a cleaner transparent look -->
-                    <img src="logo.png" alt="Profile" class="w-full h-full object-contain drop-shadow-2xl">
+                    <img src="logo.png" alt="MCCS Malaysia logo" width="96" height="96" class="w-full h-full object-contain drop-shadow-2xl">
                 </div>
             </div>
         </div>
@@ -190,16 +116,16 @@
             </div>
 
             <div class="flex justify-center mb-6">
-                <a href="#" id="saveVcf" download="Hannis-Farhad.vcf" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-blue-900/20 active:scale-95">
-                    <i class="fas fa-user-plus text-xs"></i> Add to contacts
+                <a href="Hannis-Farhad.vcf" id="saveVcf" download="Hannis-Farhad.vcf" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-blue-900/20 active:scale-95">
+                    <svg class="inline-block text-xs" style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M1 21v-2a6 6 0 0 1 12 0v2 M19 8v8 M15 12h8"/></svg> Add to contacts
                 </a>
             </div>
 
             <!-- Tab Navigation -->
-            <nav class="flex justify-around mb-8 border-b border-slate-700/50 relative">
-                <button onclick="switchTab('contact', 0)" id="btn-contact" class="pb-3 px-2 text-sm font-bold transition-all text-blue-400 border-b-2 border-blue-400">Contact</button>
-                <button onclick="switchTab('company', 1)" id="btn-company" class="pb-3 px-2 text-sm font-bold transition-all text-slate-400 border-b-2 border-transparent hover:text-white">Company</button>
-                <button onclick="switchTab('socials', 2)" id="btn-socials" class="pb-3 px-2 text-sm font-bold transition-all text-slate-400 border-b-2 border-transparent hover:text-white">Socials</button>
+            <nav aria-label="Card sections" class="flex justify-around mb-8 border-b border-slate-700/50 relative">
+                <button id="btn-contact" class="pb-3 px-2 text-sm font-bold transition-all text-blue-400 border-b-2 border-blue-400">Contact</button>
+                <button id="btn-company" class="pb-3 px-2 text-sm font-bold transition-all text-slate-400 border-b-2 border-transparent hover:text-white">Company</button>
+                <button id="btn-socials" class="pb-3 px-2 text-sm font-bold transition-all text-slate-400 border-b-2 border-transparent hover:text-white">Socials</button>
             </nav>
 
             <!-- Tab Contents -->
@@ -209,30 +135,30 @@
                 <div id="contact" class="tab-content active">
                     <div class="space-y-3">
                         <a href="tel:+601125605471" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><i class="fas fa-phone"></i></div>
+                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h4l2 5-3 2a15 15 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2C10 21 3 14 3 5a2 2 0 0 1 2-2Z"/></svg></div>
                             <div class="overflow-hidden">
-                                <p class="text-[10px] text-slate-500 uppercase font-black">Phone Number</p>
+                                <p class="text-[10px] text-slate-400 uppercase font-black">Phone Number</p>
                                 <p class="text-sm font-medium">+601125605471</p>
                             </div>
                         </a>
                         <a href="mailto:farhad@mccsw.com" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all"><i class="fas fa-envelope"></i></div>
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3Z M3 5l9 8 9-8"/></svg></div>
                             <div class="overflow-hidden">
-                                <p class="text-[10px] text-slate-500 uppercase font-black">Email Address</p>
+                                <p class="text-[10px] text-slate-400 uppercase font-black">Email Address</p>
                                 <p class="text-sm font-medium truncate">farhad@mccsw.com</p>
                             </div>
                         </a>
-                        <a href="https://www.mccsinternational.com" target="_blank" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all"><i class="fas fa-globe"></i></div>
+                        <a href="https://www.mccsinternational.com" target="_blank" rel="noopener" class="flex items-center gap-4 p-4 bg-slate-800/40 rounded-2xl hover:bg-slate-800 transition-colors group border border-white/5">
+                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0 M3 12h18 M12 3c-5 5-5 13 0 18 M12 3c5 5 5 13 0 18"/></svg></div>
                             <div class="overflow-hidden">
-                                <p class="text-[10px] text-slate-500 uppercase font-black">Website</p>
+                                <p class="text-[10px] text-slate-400 uppercase font-black">Website</p>
                                 <p class="text-sm font-medium truncate">mccsinternational.com</p>
                             </div>
                         </a>
                         <div class="flex items-start gap-4 p-4 bg-slate-800/20 rounded-2xl border border-white/5">
-                            <div class="w-10 h-10 shrink-0 rounded-xl bg-slate-500/10 flex items-center justify-center text-slate-400"><i class="fas fa-location-dot"></i></div>
+                            <div class="w-10 h-10 shrink-0 rounded-xl bg-slate-500/10 flex items-center justify-center text-slate-400"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22S4 14 4 9a8 8 0 1 1 16 0c0 5-8 13-8 13Z M15 9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/></svg></div>
                             <div class="overflow-hidden">
-                                <p class="text-[10px] text-slate-500 uppercase font-black">Location</p>
+                                <p class="text-[10px] text-slate-400 uppercase font-black">Location</p>
                                 <p class="text-[11px] leading-relaxed text-slate-300">B-13A-4, Megan Avenue II, 12, Jalan Yap Kwan Seng, Kuala Lumpur, 50450, Malaysia</p>
                             </div>
                         </div>
@@ -244,14 +170,14 @@
                     <div class="space-y-4">
                         <div class="bg-slate-800/30 p-5 rounded-2xl border border-white/5">
                             <div class="flex items-center gap-3 mb-2">
-                                <i class="fas fa-building text-blue-400"></i>
+                                <svg class="inline-block text-blue-400" style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V3h14v18 M9 7h1 M14 7h1 M9 11h1 M14 11h1 M10 21v-6h4v6"/></svg>
                                 <span class="text-sm font-bold text-white">MCCS MALAYSIA</span>
                             </div>
                             <p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Profession</p>
                             <p class="text-sm text-slate-200">Jr. Mechanical Engineer</p>
                         </div>
                         <div class="p-2">
-                            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Company Summary</h3>
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Company Summary</h3>
                             <p class="text-sm text-slate-400 leading-relaxed">
                                 MCCS is a global EPCC sub-contractor for onshore/offshore oil & gas, FPSOs, petrochemical plants, and power stations, delivering engineering, construction, and commissioning with skilled teams for safe, efficient, reliable execution.
                             </p>
@@ -262,10 +188,10 @@
                 <!-- SOCIALS -->
                 <div id="socials" class="tab-content">
                     <div class="flex flex-col items-center gap-6 pt-4 text-center">
-                        <a href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" class="w-full max-w-[240px] flex flex-col items-center p-6 bg-slate-800/40 rounded-3xl border border-white/5 hover:bg-slate-800 transition-all group">
-                            <div class="w-16 h-16 rounded-2xl bg-[#0A66C2]/10 flex items-center justify-center text-[#0A66C2] text-3xl mb-4 group-hover:scale-110 transition-transform"><i class="fab fa-linkedin"></i></div>
+                        <a href="https://www.linkedin.com/in/hannisfarhad/" target="_blank" rel="noopener" class="w-full max-w-[240px] flex flex-col items-center p-6 bg-slate-800/40 rounded-3xl border border-white/5 hover:bg-slate-800 transition-all group">
+                            <div class="w-16 h-16 rounded-2xl bg-[#0A66C2]/10 flex items-center justify-center text-[#0A66C2] text-3xl mb-4 group-hover:scale-110 transition-transform"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9v12 M5 4v1 M10 21V9h4v2c2-4 7-2 7 2v8 M14 21v-8"/></svg></div>
                             <p class="text-sm font-bold">LinkedIn Profile</p>
-                            <p class="text-[11px] text-slate-500 mt-1">@hannisfarhad</p>
+                            <p class="text-[11px] text-slate-400 mt-1">@hannisfarhad</p>
                         </a>
                         <a href="https://sandbox.hfsocial.com" target="_blank" rel="noopener" class="fun-btn glass px-8 py-4 rounded-2xl text-sm font-bold inline-flex items-center gap-3">
                             <span class="text-lg">🎮</span> Play Sandbox Game
@@ -277,80 +203,13 @@
 
             <!-- Footer Social Links -->
             <div class="mt-8 pt-6 border-t border-slate-700/50 flex justify-center gap-8">
-                <a href="https://www.linkedin.com/in/hannisfarhad/" class="text-slate-500 hover:text-blue-400 transition-colors text-xl"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:farhad@mccsw.com" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fas fa-envelope"></i></a>
-                <a href="https://www.mccsinternational.com" class="text-slate-500 hover:text-white transition-colors text-xl"><i class="fas fa-globe"></i></a>
+                <a href="https://www.linkedin.com/in/hannisfarhad/" aria-label="LinkedIn profile" class="text-slate-400 hover:text-blue-400 transition-colors text-xl"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9v12 M5 4v1 M10 21V9h4v2c2-4 7-2 7 2v8 M14 21v-8"/></svg></a>
+                <a href="mailto:farhad@mccsw.com" aria-label="Email Hannis Farhad" class="text-slate-400 hover:text-white transition-colors text-xl"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3Z M3 5l9 8 9-8"/></svg></a>
+                <a href="https://www.mccsinternational.com" aria-label="MCCS website" class="text-slate-400 hover:text-white transition-colors text-xl"><svg class="inline-block " style="width:1em;height:1em;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0 M3 12h18 M12 3c-5 5-5 13 0 18 M12 3c5 5 5 13 0 18"/></svg></a>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const MIN_SPLASH_MS = 1500; 
-        const wrapper = document.getElementById('splash-wrapper');
-        const started = Date.now();
-
-        function hideSplash(){
-            if(!wrapper) return;
-            wrapper.classList.add('hide'); 
-            setTimeout(()=> wrapper.remove(), 1800);
-        }
-
-        window.addEventListener('load', () => {
-            const elapsed = Date.now() - started;
-            const wait = Math.max(0, MIN_SPLASH_MS - elapsed);
-            setTimeout(hideSplash, wait);
-        });
-
-        let currentIdx = 0;
-        function switchTab(tabId, index) {
-            const buttons = ['btn-contact', 'btn-company', 'btn-socials'];
-            if (index === currentIdx) return;
-
-            const direction = index > currentIdx ? 'right' : 'left';
-            const activeTab = document.querySelector('.tab-content.active');
-            const targetTab = document.getElementById(tabId);
-
-            buttons.forEach((btnId, i) => {
-                const btn = document.getElementById(btnId);
-                if (i === index) {
-                    btn.classList.add('text-blue-400', 'border-blue-400');
-                    btn.classList.remove('text-slate-400', 'border-transparent', 'hover:text-white');
-                } else {
-                    btn.classList.remove('text-blue-400', 'border-blue-400');
-                    btn.classList.add('text-slate-400', 'border-transparent', 'hover:text-white');
-                }
-            });
-
-            activeTab.style.transform = direction === 'right' ? 'translateX(-30px) scale(0.95)' : 'translateX(30px) scale(0.95)';
-            activeTab.style.opacity = '0';
-
-            setTimeout(() => {
-                activeTab.classList.remove('active');
-                activeTab.style.display = 'none';
-                targetTab.style.display = 'block';
-                targetTab.style.transform = direction === 'right' ? 'translateX(40px) scale(0.96)' : 'translateX(-40px) scale(0.96)';
-                targetTab.style.opacity = '0';
-                targetTab.offsetHeight;
-                targetTab.classList.add('active');
-                targetTab.style.transform = 'translateX(0) scale(1)';
-                targetTab.style.opacity = '1';
-                currentIdx = index;
-            }, 250); 
-        }
-
-        const vcardText = ["BEGIN:VCARD","VERSION:3.0","FN:Hannis Farhad","N:;Hannis Farhad;;;","EMAIL;TYPE=WORK:farhad@mccsw.com","TEL;TYPE=CELL:+601125605471","ADR;TYPE=WORK:;;12 Jalan Yap Kwan Seng;Kuala Lumpur;WP Kuala Lumpur;50450;Malaysia","TITLE:Jr. Mechanical Engineer","ORG:MCCS Malaysia","URL:https://www.mccsinternational.com/","END:VCARD"].join("\r\n");
-        const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        document.getElementById("saveVcf").setAttribute("href", url);
-
-        window.onload = () => {
-            const contact = document.getElementById('contact');
-            contact.style.display = 'block';
-            setTimeout(() => { 
-                contact.classList.add('active');
-                contact.style.opacity = '1'; 
-            }, 50);
-        };
-    </script>
+    <script src="card.js" defer></script>
 </body>
 </html>
